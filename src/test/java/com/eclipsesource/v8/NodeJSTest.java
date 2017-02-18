@@ -20,6 +20,7 @@ import java.io.PrintWriter;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class NodeJSTest {
@@ -150,6 +151,18 @@ public class NodeJSTest {
         assertEquals(7, exports.getInteger("foo"));
         exports.release();
 
+    }
+
+    @Test
+    @Ignore
+    public void testGyp() throws IOException {
+        nodeJS.release();
+        nodeJS = NodeJS.createNodeJS();
+        V8Object exports = nodeJS.require(new File("/Users/geowarin/dev/projects/test-node-cpp/test.js"));
+        runMessageLoop();
+
+        assertEquals(7, exports.getInteger("foo"));
+        exports.release();
     }
 
     private void runMessageLoop() {
