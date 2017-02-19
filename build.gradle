@@ -1,0 +1,56 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.eclipsesource.j2v8'
+version = '5.0.0'
+
+description = """j2v8_macosx_x86_64"""
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+repositories {
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version:'4.11'
+    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.9.5'
+}
+
+task configureNode(type:Exec) {
+    workingDir './node'
+    commandLine './configure', '--enable-static'
+}
+
+task makeNode(type:Exec) {
+    workingDir './node'
+    executable 'make'
+}
+
+task buildLib(type:Exec) {
+    workingDir '.'
+    executable "./build-scripts/${currentOsClassifier()}/build.sh"
+}
+
+makeNode.dependsOn configureNode
+assemble.dependsOn buildLib
+
+def currentOsClassifier() {
+    def os = org.gradle.internal.os.OperatingSystem.current()
+    if (os.isMacOsX()) return "macosx"
+    if (os.isWindows()) return "win32"
+    if (os.isLinux()) return "linux"
+    throw new GradleException("Unsupported os ${os.name}")
+}
+
+jar {
+    from(new File(project.buildDir, currentOsClassifier())) {
+        into '/'
+    }
+    archiveName = "j2v8_${currentOsClassifier()}_x86_64.jar"
+}
