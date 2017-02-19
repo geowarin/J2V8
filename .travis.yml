@@ -5,8 +5,14 @@ os:
 
 language: cpp
 compiler: clang
-jkd: openjdk7
+
+addons:
+  apt:
+    packages:
+      - clang-3.5
+      - openjdk-7-jdk
 
 script:
   - ./gradlew makeNode
   - ./gradlew assemble
+  - ./gradlew check

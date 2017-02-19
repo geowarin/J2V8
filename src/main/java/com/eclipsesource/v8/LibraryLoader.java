@@ -46,8 +46,9 @@ class LibraryLoader {
         StringBuffer message = new StringBuffer();
         String libShortName = computeLibraryShortName();
         String libFullName = computeLibraryFullName();
-        String ideLocation = System.getProperty("user.dir") + SEPARATOR + "jni" + SEPARATOR + computeLibraryFullName();
-        String path = null;
+        String ideLocation =
+                System.getProperty("user.dir") + SEPARATOR + "build" + SEPARATOR + getOS() + SEPARATOR + computeLibraryFullName();
+        String path;
 
         /* Try loading library from java library path */
         if (load(libShortName, message)) {
