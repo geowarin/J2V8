@@ -1,9 +1,11 @@
-os: osx
+os:
+  - osx
+  - linux
+
 language: cpp
-branches:
- only: master
 compiler: clang
-before_install:
-- chmod -x build-node.sh
-install: sh ./build-node.sh
-script: sh ./buildJ2V8_macos.sh
+jkd: openjdk7
+
+script:
+  - ./gradlew makeNode
+  - ./gradlew assemble
