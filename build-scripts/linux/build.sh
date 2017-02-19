@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-JDK7=${JAVA_HOME:/usr/lib/jvm/java-7-openjdk-amd64}
+JDK7=${JAVA_HOME:-"/usr/lib/jvm/java-7-openjdk-amd64"}
 NODE=./node
 #NODE=/home/vagrant/node
 
